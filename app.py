@@ -432,5 +432,94 @@ def update_pgraph_2(selected_school, selected_sub):
                        )
     return figC
 
+# **------------------------------------------page 2: Teacher Dashboards-----------------------------------------------**
+# subdf = df[(df['Distt']==District) & (df['Zone']==Zone_no) & (df['School']==School_no) & (df['Class']==10) & (df['Section']=='A')]
+
+# page_2_layout = html.Div([
+#     html.H1('Page 2'),
+    
+#     html.Br(),
+#     dcc.Link('Go to Page 1', href='/school/1'),
+#     html.Br(),
+#     dcc.Link('Go back to home', href='/'),
+# ])
+
+
+page_2_layout = html.Div([
+    # html.H1('Teacher Wise Stats', style={'text-align' : 'center'}),
+    html.Div(
+    children=[
+            
+    html.Div([
+    #filters
+        html.Div([
+
+            html.Div([
+                html.Label(["Choose Teacher"],style={'float':'left'}),
+                html.Div([
+                dcc.Dropdown( id='dd_teacher',clearable=False,style={'text-align':'left'},
+                    options=[{'label': i, 'value': i} for i in df[(df['Distt']==District) & (df['Zone']==Zone_no) & (df['School']==School_no)]['Teacher'].unique()],
+                    value=df[(df['Distt']==District) & (df['Zone']==Zone_no) & (df['School']==School_no)]['Teacher'].iloc[0])],style={'float':'right'}),
+            ],style={'width': '40%','display':'inline-block','margin-left':'5%','margin-right':'5%','margin-bottom':'2%'}),
+            html.Div([
+                html.Label(["Choose Class"],style={'float':'left'}),
+                html.Div([
+                dcc.Dropdown(id='dd_class',clearable=False,style={'text-align':'left'},)],style={'float':'right'}),
+            ],style={'width': '40%','display':'inline-block','margin-left':'5%','margin-right':'5%','margin-bottom':'2%'}),
+            html.Div([
+                html.Label(["Choose Section"],style={'float':'left'}),
+                html.Div([
+                dcc.Dropdown(id='dd_section',clearable=False,style={'text-align':'left'},)],style={'float':'right'}),
+            ],style={'width': '40%','display':'inline-block','margin-left':'5%','margin-right':'5%','margin-bottom':'2%'}),
+            html.Div([  
+                html.Label(["Choose Subject"],style={'float':'left'}),
+                html.Div([
+                dcc.Dropdown(id='dd_sub',clearable=False,style={'text-align':'left'},)],style={'float':'right'}),
+            ],style={'width': '40%','display':'inline-block','margin-left':'5%','margin-right':'5%','margin-bottom':'2%'})
+        ],style={'float':'left', 'width':'35%'}),
+
+     # avgs
+        html.Div([ 
+            html.Div([
+                html.Div(html.P(id='your-avg'),style={'display':'inline-block','font-size':'250%'}),
+                html.Div(html.P(id='school-avg'),style={'display':'inline-block','font-size':'250%','margin-left':'13%','margin-right':'13%'}),
+                html.Div(html.P(id='distt-avg'),style={'display':'inline-block','font-size':'250%'})
+            ], className="row",style={}),
+            html.Div([
+                html.Div(html.P('Class Average'),style={'display':'inline-block','width':'20%'}),
+                html.Div(html.P('School Average'),style={'display':'inline-block','width':'20%'}),
+                html.Div(html.P('District Average'),style={'display':'inline-block','width':'20%'})
+            ], className="row",style={})
+         ],style={'width': '40%','text-align':'center','align-items':'center','float':'right'}),
+    ], style={'margin-bottom':'5px','margin-top':'20px','width':'100%','display':'inline-block'}),
+
+    # tabs
+       html.Div([
+            #html.Label(["CHOOSE TOPIC"]),
+            dcc.Tabs(id='tabs-example',
+           
+            colors={"border": "white","primary": "#C9DDF2","background": "#EAF2FA"}
+            ),
+            ],style={'display':'inline-block','width': '40%','margin-bottom':'10px',}
+            ),
+
+    # graphs
+        html.Div([
+            html.Div(dcc.Graph(id='dtt-avg-scatter',config={"displaylogo": False,}), style={'display':'inline-block','width': '31%', }),
+            html.Div(dcc.Graph(id='pie-graph',config={"displaylogo": False,}),style={'display':'inline-block','width': '31%','text-align': 'center', 'margin-left':'13px'}),
+            html.Div(dcc.Graph(id='topic-wise-performance',config={"displaylogo": False,}),style={'display':'inline-block','width': '31%','text-align': 'center','background-color':'white','margin-left':'13px'}),
+        ], className="row"),
+
+        html.Div([
+            html.Br(),
+            dcc.Link('Go to Principal dashboard', href='/school/1'),
+            html.Br(),
+            dcc.Link('Go back to home', href='/'),
+        ],style={'font-size':'large'}
+        )
+
+    ],style={'background-color': '#FFFFFF','width':'100%','text-align':'center'})    
+])
+
 if __name__ == '__main__':
     app.run_server(debug=True)
